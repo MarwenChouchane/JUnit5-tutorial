@@ -1,10 +1,18 @@
 package junit5Test;
 
+import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
+import java.lang.reflect.MalformedParameterizedTypeException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class AssertionTest {
 
@@ -47,9 +55,50 @@ public class AssertionTest {
 
     @Test
     void assertAllTest(){
+        List<String> expectedValue = Arrays.asList("First Value","Second Value","Third Value");
+        List<String> actualValue = Arrays.asList("First Value","Second Value","Third Value");
         Assertions.assertAll(
                 ()-> Assertions.assertEquals("FirstString","SecondString","The String value were not equals"),
                 ()-> Assertions.assertTrue(6>5 , "This boolean condition did not evaluate to true"),
-                ()-> Assertions.assertFalse(9>6, "This boolean condition did not evaluate to false"));
+                ()-> Assertions.assertFalse(9>6, "This boolean condition did not evaluate to false"),
+                ()-> Assertions.assertEquals(expectedValue,actualValue, "The List value were not equals"));
+    }
+
+
+     /********junit + hamcrest**********/
+
+     @Test
+    void assertForMapTest(){
+         Map<String, Integer> theMap = new HashMap<>();
+         theMap.put("FirstKey", 1);
+         theMap.put("SecondKey", 2);
+         theMap.put("ThirdKey", 3);
+         assertThat(theMap, Matchers.hasKey("SecondKey"));
+         assertThat(theMap, Matchers.hasValue(2));
+     }
+
+    @Test
+    void assertForList(){
+        //check if the element is in the list or not
+        List<String> theList = Arrays.asList("First Value","Second Value","Third Value");
+        assertThat(theList, Matchers.hasItem("First Value"));
+    }
+
+    @Test
+    void assertForAnyOf(){
+        List<String> theList = Arrays.asList("First Value","Second Value","Third Value");
+        assertThat(theList, Matchers.anyOf(Matchers.hasItem("First Value"), Matchers.hasItem("String")));
+    }
+
+    @Test
+    void assertForAllOf(){
+        List<String> theList = Arrays.asList("First Value","Second Value","Third Value");
+        assertThat(theList, Matchers.allOf(Matchers.hasItem("First Value"), Matchers.hasItem("String")));
+    }
+
+    @Test
+    void assertForContainAnyOrder(){
+        List<String> theList = Arrays.asList("First Value","Second Value","Third Value");
+        assertThat(theList, Matchers.containsInAnyOrder("First Value","Second Value","Third Value"));
     }
 }
