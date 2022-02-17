@@ -1,9 +1,12 @@
 package junit5Test;
 
+import listeners.Listener;
 import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+@ExtendWith(Listener.class)
 public class AssumptionTest {
 
     @org.junit.jupiter.params.ParameterizedTest(name = "Run : {index} - value = {arguments}")

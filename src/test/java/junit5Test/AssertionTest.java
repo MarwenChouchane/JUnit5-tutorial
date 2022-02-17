@@ -1,9 +1,11 @@
 package junit5Test;
 
+import listeners.Listener;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
 
 import java.lang.reflect.MalformedParameterizedTypeException;
@@ -14,6 +16,7 @@ import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
+@ExtendWith(Listener.class)
 public class AssertionTest {
 
     @Test
